@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Order</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="brand">🍪 Dine Fine</div>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Users</a>
+      <a href="#">Groups</a>
+      <a href="#">Category</a>
+      <a href="#">Products</a>
+      <a href="#">Orders</a>
+      <a href="#">Inventory</a>
+      <a href="#">Tables</a>
+      <a href="#">Reports</a>
+      <a href="#">Company</a>
+    </nav>
+
+    <div class="admin-dropdown">
+      <button class="admin-btn">Administrator ▼</button>
+      <div class="admin-menu">
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="order-section">
+      <div class="left-panel">
+        <div class="table-box">
+          <label for="table">Choose Table</label>
+          <select id="table">
+            <option>Table 1</option>
+            <option>Table 2</option>
+            <option>Table 3</option>
+          </select>
+        </div>
+
+        <h2>Order List</h2>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="order-body">
+            <tr id="empty-row">
+              <td colspan="6" class="empty">Empty List (Select Product)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="summary" id="summary">
+          <p>Subtotal: <strong>$0.00</strong></p>
+          <p>Discount: <strong>$0.00</strong></p>
+          <p>Total: <strong>$0.00</strong></p>
+        </div>
+
+        <div class="order-actions">
+          <button onclick="printOrder()">🖨️ Print</button>
+          <button onclick="createOrder()">🧾 Create Order</button>
+          <button onclick="goBack()">↩️ Back</button>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="category-tabs">
+          <button class="tab active">Burgers</button>
+          <button class="tab">Pizza</button>
+          <button class="tab">Tacos</button>
+          <button class="tab">Whisky</button>
+          <button class="tab">Drinks</button>
+          <button class="tab">Flatbreads</button>
+          <button class="tab">Starters</button>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search products..." />
+        </div>
+
+        <div class="product-grid" id="product-grid">
+          <div class="product-card" onclick="addToOrder({ name: 'Coca Cola', price: 1.5, image: 'images/coca-cola.jpeg' })">
+            <img src="images/coca-cola.jpeg" alt="Coca Cola">
+            <p>Coca Cola</p>
+            <p class="price">$1.50</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Cream Cookies', price: 2.0, image: 'images/Cream Cookies.jpeg' })">
+            <img src="images/Cream Cookies.jpeg" alt="Cream Cookies">
+            <p>Cream Cookies</p>
+            <p class="price">$2.00</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Pepsi', price: 1.3, image: 'images/Pepsi.jpeg' })">
+            <img src="images/Pepsi.jpeg" alt="Pepsi">
+            <p>Pepsi</p>
+            <p class="price">$1.30</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Juices', price: 2.5, image: 'images/Juices.jpeg' })">
+            <img src="images/Juices.jpeg" alt="Juices">
+            <p>Juices</p>
+            <p class="price">$2.50</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Coffee', price: 2.0, image: 'images/Coffee.jpeg' })">
+            <img src="images/Coffee.jpeg" alt="Coffee">
+            <p>Coffee</p>
+            <p class="price">$2.00</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Burger', price: 4.5, image: 'images/Burger.jpeg' })">
+            <img src="images/Burger.jpeg" alt="Burger">
+            <p>Burger</p>
+            <p class="price">$4.50</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Pizza', price: 6.0, image: 'images/Pizza.jpeg' })">
+            <img src="images/Pizza.jpeg" alt="Pizza">
+            <p>Pizza</p>
+            <p class="price">$6.00</p>
+          </div>
+          <div class="product-card" onclick="addToOrder({ name: 'Fries', price: 3.0, image: 'images/Pizza.jpeg' })">
+            <img src="images/Pizza.jpeg" alt="Fries">
+            <p>Fries</p>
+            <p class="price">$3.00</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
