@@ -31,6 +31,11 @@ class Orders extends Admin_Controller
 		}
 
 		$this->data['page_title'] = 'Manage Orders';
+		// Load data needed for the modal on the index page
+		$this->data['tables_data_for_modal'] = $this->model_tables->getTableData(); // Inapaswa kurudisha meza zote active
+		$this->data['waiters_data_for_modal'] = $this->model_users->getUsersByGroupId(5); // Badilisha 5 kama Group ID ya wahudumu ni tofauti
+
+
 		$this->render_template('orders/index', $this->data);
 	}
 
@@ -66,7 +71,7 @@ class Orders extends Admin_Controller
 			$result['data'][$key][6] .= '<a href="'.base_url('orders/printDiv/'.$value['id']).'" class="btn btn-default btn-sm"><i class="fa fa-print"></i></a>';
 		}
 		if (in_array('updateOrder', $this->permission)) {
-			$result['data'][$key][6] .= ' <a href="'.base_url('orders/update/'.$value['id']).'" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a>';
+			$result['data'][$key][6] .= ' <button type="button" class="btn btn-info btn-sm" onclick="openEditOrderModal('.$value['id'].')"><i class="fa fa-pencil"></i></button>';
 		}
 		if (in_array('deleteOrder', $this->permission)) {
 			$result['data'][$key][6] .= ' <button type="button" class="btn btn-danger btn-sm" onclick="removeFunc('.$value['id'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
@@ -91,7 +96,7 @@ class Orders extends Admin_Controller
 		// Fetch data for the view
 		$this->data['products'] = $this->model_products->getActiveProductData();
 		$this->data['categories'] = $this->model_category->getActiveCategory();
-		$this->data['tables'] = $this->model_tables->getActiveTable();
+		$this->data['tables'] = $this->model_tables->getTableData(); // Use getTableData to get all active tables
 		$company = $this->model_company->getCompanyData(1); // Assuming company ID 1
 		$this->data['company_data'] = $company;
 		// Use the correct keys from your company table for charge rates

@@ -727,7 +727,7 @@ body.order-page .waiter-selection-box label {
 
 body.order-page .selection-buttons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Adjust button size */
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Reduced min button size */
   gap: 8px;
   max-height: 160px; /* Limit height and allow scroll */
   overflow-y: auto;
@@ -745,8 +745,8 @@ body.order-page .waiter-button {
   color: #444;
   cursor: pointer;
   border-radius: 4px;
-  text-align: center;
-  font-size: 0.85em; /* Smaller font for buttons */
+  text-align: center; 
+  font-size: 0.8em; /* Further reduced font size for buttons */
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden;
@@ -759,6 +759,31 @@ body.order-page .waiter-button:hover {
   border-color: #bbb;
 }
 
+* Table status colors */
+body.order-page .table-button.status-available {
+  background-color: #e8f5e9; /* Light green */
+  border-color: #a5d6a7;
+}
+body.order-page .table-button.status-available:hover {
+  background-color: #c8e6c9;
+}
+
+body.order-page .table-button.status-occupied {
+  background-color: #ffebee; /* Light red */
+  border-color: #ef9a9a;
+  /* Consider adding cursor: not-allowed; if occupied tables cannot be selected for new orders */
+}
+body.order-page .table-button.status-occupied:hover {
+  background-color: #ffcdd2;
+}
+
+body.order-page .table-button.status-reserved {
+  background-color: #fff3e0; /* Light orange */
+  border-color: #ffcc80;
+}
+body.order-page .table-button.status-reserved:hover {
+  background-color: #ffe0b2;
+}
 body.order-page .table-button.selected,
 body.order-page .waiter-button.selected {
   background-color: #3498db; /* Blue for selected */

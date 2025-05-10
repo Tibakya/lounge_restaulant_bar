@@ -168,4 +168,17 @@ class Model_products extends CI_Model
 		return false;
 	}
 
+	public function searchActiveProductsByName($searchTerm, $limit = 10)
+	{
+		if (empty($searchTerm)) {
+			return [];
+		}
+		$this->db->select('id, name, price, image'); // Select only necessary fields
+		$this->db->from('products');
+		$this->db->where('active', 1);
+		$this->db->like('name', $searchTerm, 'both'); // 'both' means %searchTerm%
+		$this->db->limit($limit);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

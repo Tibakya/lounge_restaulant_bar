@@ -61,8 +61,8 @@
 <!-- <script src="<?php echo base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') ?>"></script> --> <!-- Already in header -->
 
 <!-- Load Order Create/Edit specific JS -->
-<?php if (($this->uri->segment(1) == 'orders' && ($this->uri->segment(2) == 'create' || $this->uri->segment(2) == 'edit'))): ?>
-<script src="<?php echo base_url('assets/js/order_create.js') ?>"></script>
+<?php if ($this->uri->segment(1) == 'orders' && (in_array($this->uri->segment(2), ['create', 'edit', '', 'index', null]))): ?>
+<script src="<?php echo base_url('assets/js/order_create.js?v=1.2') ?>"></script> <!-- Incremented version for cache busting -->
 <?php endif; ?>
 
 </body>

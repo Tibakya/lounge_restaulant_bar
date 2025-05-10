@@ -104,6 +104,96 @@
 <?php endif; ?>
 
 
+<!-- Edit Order Modal -->
+<!-- Hakikisha hii div ina id="editOrderModal" -->
+<div id="editOrderModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close-modal-btn" onclick="closeEditOrderModal()">&times;</span>
+      <h2>Edit Order - Bill #<span id="modal-bill-no"></span></h2>
+    </div>
+    <div class="modal-body">
+      <form id="edit-order-form-modal" action="" method="post">
+        <input type="hidden" name="order_id_modal" id="order_id_modal">
+
+        <div class="form-row">
+            <div class="form-group-modal">
+                <label for="modal_table_name">Table:</label>
+                <select class="form-control" id="modal_table_name" name="table_name" required>
+                    <option value="">Select Table</option>
+                    <?php
+                    // Hii $tables_data_for_modal inatoka kwenye controller Orders.php, index() method
+                    if(isset($tables_data_for_modal) && !empty($tables_data_for_modal)): ?>
+                        <?php foreach ($tables_data_for_modal as $tbl): ?>
+                            <option value="<?php echo $tbl['id'] ?>"><?php echo html_escape($tbl['table_name']); ?></option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="" disabled>No tables loaded</option>
+                    <?php endif; ?>
+                </select>
+            </div>
+            <div class="form-group-modal">
+                <label for="modal_waiter_id">Waiter:</label>
+                <select id="modal_waiter_id" name="waiter_id" class="form-control" required>
+                    <option value="">Select Waiter</option>
+                     <?php
+                     // Hii $waiters_data_for_modal inatoka kwenye controller Orders.php, index() method
+                     if(isset($waiters_data_for_modal) && !empty($waiters_data_for_modal)): ?>
+                        <?php foreach ($waiters_data_for_modal as $wt): ?>
+                        <option value="<?php echo $wt['id'] ?>">
+                            <?php echo html_escape($wt['firstname'] . ' ' . $wt['lastname']); ?>
+                        </option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="" disabled>No waiters loaded</option>
+                    <?php endif; ?>
+                </select>
+            </div>
+        </div>
+
+        <h4>Order Items</h4>
+        <table class="order-table" id="modal-order-table">
+            <thead>
+                <tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th><th>Action</th></tr>
+            </thead>
+            <tbody id="modal-order-body"></tbody>
+        </table>
+        <div class="product-search-modal">
+            <input type="text" id="modal_product_search" placeholder="Search product to add...">
+            <div id="modal_product_search_results"></div>
+        </div>
+
+        <input type="hidden" name="gross_amount_value" id="modal_gross_amount_value">
+        <input type="hidden" name="service_charge_rate" id="modal_service_charge_rate_value">
+        <input type="hidden" name="service_charge_value" id="modal_service_charge_value">
+        <input type="hidden" name="vat_charge_rate" id="modal_vat_charge_rate_value">
+        <input type="hidden" name="vat_charge_value" id="modal_vat_charge_value">
+        <input type="hidden" name="net_amount_value" id="modal_net_amount_value">
+        <input type="hidden" name="discount" id="modal_discount_value">
+
+        <h4>Summary</h4>
+        <div class="summary" id="modal-summary">
+            <p>Subtotal: <strong id="modal-summary-subtotal">0.00</strong></p>
+            <p>Discount: <strong id="modal-summary-discount">0.00</strong></p>
+            <hr style="margin: 5px 0;">
+            <p>Net Total: <strong id="modal-summary-net-total" style="font-size: 1.1em;">0.00</strong></p>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group-modal">
+                <label for="modal_paid_status">Paid Status:</label>
+                <select class="form-control" id="modal_paid_status" name="paid_status" required><option value="2">Unpaid</option><option value="1">Paid</option></select>
+            </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" onclick="submitOrderUpdateFromModal(event)">Update Order</button>
+      <button type="button" class="btn btn-default" onclick="closeEditOrderModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
 var manageTable;

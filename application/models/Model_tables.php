@@ -10,29 +10,25 @@ class Model_tables extends CI_Model
 	public function getTableData($id = null)
 	{
 		if($id) {
-			$sql = "SELECT * FROM tables WHERE id = ?";
+			$sql = "SELECT * FROM tables WHERE id = ? AND active = 1"; // Also ensure active for single fetch
 			$query = $this->db->query($sql, array($id));
 			return $query->row_array();
 		}
 
-		// if admin all data 
+		// if admin all active data
 		$user_id = $this->session->userdata('id');
 		if($user_id == 1) {
-			$sql = "SELECT * FROM tables ORDER BY id DESC";
+			$sql = "SELECT * FROM tables WHERE active = 1 ORDER BY table_name ASC"; // Filter by active = 1 and order by name
 			$query = $this->db->query($sql);
-			return $query->result_array();	
+			return $query->result_array();
 		}
 		else {
 			$this->load->model('model_users');
 			$user_data = $this->model_users->getUserData($user_id);
-			$sql = "SELECT * FROM tables WHERE store_id = ? ORDER BY id DESC";
+			$sql = "SELECT * FROM tables WHERE store_id = ? AND active = 1 ORDER BY table_name ASC"; // Filter by active = 1 and order by name
 			$query = $this->db->query($sql, array($user_data['store_id']));
-			return $query->result_array();		
+			return $query->result_array();
 		}
-
-		// else store wise
-
-		
 	}
 
 	public function create($data = array())

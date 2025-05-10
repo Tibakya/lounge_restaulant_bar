@@ -10,6 +10,7 @@ class Auth extends Admin_Controller
 		parent::__construct();
 
 		$this->load->model('model_auth');
+		$this->load->model('model_users'); // Load model_users to get group info
 	}
 
 	/* 
@@ -41,7 +42,20 @@ class Auth extends Admin_Controller
 					);
 
 					$this->session->set_userdata($logged_in_sess);
-           			redirect('dashboard', 'refresh');
+
+					// Angalia kundi la mtumiaji
+					// Badilisha '4' kuwa ID sahihi ya kundi la "Cashier" kwenye mfumo wako
+					// Au unaweza kuangalia kwa jina la kundi: $user_group['group_name'] == 'Cashier'
+					$cashier_group_id = 4; // MFANO: Weka ID sahihi ya Cashier hapa
+					$user_group = $this->model_users->getUserGroup($login['id']);
+
+					if ($user_group && isset($user_group['id']) && $user_group['id'] == $cashier_group_id) {
+						// Kama ni Cashier, mpeleke kwenye ukurasa wa kuunda oda
+						redirect('orders/create', 'refresh');
+					} else {
+						// Kwa watumiaji wengine, wapeleke kwenye dashboard
+           				redirect('dashboard', 'refresh');
+					}
            		}
            		else {
            			$this->data['errors'] = 'Incorrect username/password combination';

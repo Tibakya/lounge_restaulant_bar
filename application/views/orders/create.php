@@ -46,10 +46,21 @@
             <div class="table-selection-box">
               <label>Choose Table</label>
               <div id="table-selection-buttons" class="selection-buttons-grid">
-                <?php foreach ($tables as $k => $v): ?>
-                  <?php if (isset($v['available']) && $v['available'] == 1 && isset($v['active']) && $v['active'] == 1): ?>
-                    <button type="button" class="table-button" data-table-id="<?php echo $v['id']; ?>">
-                      <?php echo html_escape($v['table_name']); ?>
+                 <?php foreach ($tables as $table): ?>
+                  <?php if (isset($table['active']) && $table['active'] == 1):
+                      $status_class = '';
+                      if (isset($table['available'])) {
+                          if ($table['available'] == 1) {
+                              $status_class = 'status-available';
+                          } elseif ($table['available'] == 2) {
+                              $status_class = 'status-occupied';
+                          } elseif ($table['available'] == 3) {
+                              $status_class = 'status-reserved';
+                          }
+                      }
+                  ?>
+                    <button type="button" class="table-button <?php echo $status_class; ?>" data-table-id="<?php echo $table['id']; ?>" data-table-status="<?php echo $table['available']; ?>">
+                                 <?php echo html_escape($table['table_name']); ?>
                     </button>
                   <?php endif; ?>
                 <?php endforeach; ?>
@@ -61,7 +72,7 @@
               <label>Assign Waiter</label>
               <div id="waiter-selection-buttons" class="selection-buttons-grid">
                 <?php if(isset($waiters) && !empty($waiters)): ?>
-                  <?php foreach ($waiters as $waiter): ?>
+                   <?php foreach ($waiters as $waiter): ?>
                     <button type="button" class="waiter-button" data-waiter-id="<?php echo $waiter['id']; ?>">
                       <?php echo html_escape($waiter['firstname']); ?>
                     </button>
@@ -110,18 +121,18 @@
           </div>
 
           <div class="order-actions">
-            <!-- Print button removed from here -->
-            <button type="button" onclick="createOrder(event)">🧾 Create Order</button>
-            <button type="button" onclick="goBack()">⬅️ Back</button>
+            <button type="button" onclick="createOrder(event)">Create Order</button>
+            <button type="button" onclick="goBack()">View All Orders</button>
           </div>
         </div>
 
         <div class="middle-panel">
             <div class="category-tabs">
-                <button class="tab active" data-category-id="all">All</button>
+               <button type="button" class="tab active" data-category-id="all">All</button>
                 <?php if (isset($categories) && !empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
-                <button class="tab" data-category-id="<?php echo $category['id']; ?>">
+                <button type="button" class="tab" data-category-id="<?php echo $category['id']; ?>">
+               
                     <?php echo htmlspecialchars($category['name']); ?>
                 </button>
                 <?php endforeach; ?>
@@ -217,7 +228,7 @@
                 <select id="modal_waiter_id" name="waiter_id" class="form-control" required>
                     <option value="">Select Waiter</option>
                     <?php if(isset($waiters) && !empty($waiters)): ?>
-                        <?php foreach ($waiters as $waiter): ?>
+                         <?php foreach ($waiters as $waiter): ?>
                         <option value="<?php echo $waiter['id'] ?>">
                             <?php echo html_escape($waiter['firstname'] . ' ' . $waiter['lastname']); ?>
                         </option>
@@ -281,19 +292,13 @@
 </div>
 
 <script>
-    // These are already set in header.php, but ensure they are available if header.php changes
-    // window.base_url_php = "<?php echo base_url(); ?>";
-    // window.companyServiceCharge = <?php echo floatval(isset($company_data['charge_amount']) ? $company_data['charge_amount'] : 0); ?>;
-    // window.companyVatCharge = <?php echo floatval(isset($company_data['vat_charge']) ? $company_data['vat_charge'] : 0); ?>;
-
     document.addEventListener('DOMContentLoaded', () => {
         const summaryEl = document.getElementById("summary");
         if (summaryEl) {
-            // These values are now expected to be on window object from header.php
             summaryEl.dataset.serviceCharge = window.companyServiceCharge || 0;
             summaryEl.dataset.vatCharge = window.companyVatCharge || 0;
         }
-        if(document.getElementById("order-body")) { // Check if on create/edit page
+        if(document.getElementById("order-body")) {
              renderOrder();
         }
     });

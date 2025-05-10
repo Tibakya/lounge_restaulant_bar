@@ -451,4 +451,26 @@ class Products extends Admin_Controller
         echo json_encode($response);
 	}
 
+    public function fetchProductsJSON()
+    {
+        // Ensure it's an AJAX request if needed, or add permission checks
+        // if (!$this->input->is_ajax_request()) {
+        //    exit('No direct script access allowed');
+        // }
+
+        $searchTerm = $this->input->get('term'); // Get search term from query parameter
+        $products = [];
+
+        if ($searchTerm && strlen($searchTerm) >= 1) { // Search if term is at least 1 char
+            $products = $this->model_products->searchActiveProductsByName($searchTerm);
+        } else {
+            // Optionally, return a few popular/recent products if search term is empty
+            // $products = $this->model_products->getActiveProductData(10); // Example: Get 10 active products
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($products));
+    }
+
 }
